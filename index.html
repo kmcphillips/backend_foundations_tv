@@ -58,9 +58,13 @@
       color: #FFFFFF;
     }
 
-    .container img.gif {
+    .container img.image {
       margin: 60px;
       width: 60%;
+    }
+
+    .hidden {
+      display: none;
     }
   </style>
 </head>
@@ -69,26 +73,9 @@
   <div class="container" >
     <h2>Welcome to</h2>
     <h1 class="title"></h1>
-
-    <img class="gif" src="">
   </div>
 
   <script>
-    window.shuffleArray = function (array) {
-      var currentIndex = array.length;
-      var temporaryValue, randomIndex;
-
-      while (0 !== currentIndex) {
-        randomIndex = Math.floor(Math.random() * currentIndex);
-        currentIndex -= 1;
-        temporaryValue = array[currentIndex];
-        array[currentIndex] = array[randomIndex];
-        array[randomIndex] = temporaryValue;
-      }
-
-      return array;
-    };
-
     window.colours = ["white", "blue", "red", "yellow", "green", "black", "grey", "orange", "purple"];
 
     window.setTitleColour = function() {
@@ -103,7 +90,7 @@
       }
     };
 
-    window.gifs = [
+    window.imageUrls = [
 //       Plz no flashy strobing in Edward’s eyes
 //
 //       "https://media.tenor.com/images/dd1d6ba8804041a9578a289f97aa4993/tenor.gif",
@@ -141,7 +128,6 @@
 //       "https://media1.tenor.com/images/2aed898fae3c9119224c027b34a1d4c3/tenor.gif"
 
       "https://pbs.twimg.com/media/D_MNRA1UcAE5WZZ.png",
-      "https://pbs.twimg.com/media/D_KRU2SUIAYf1kC.jpg",
       "http://68.media.tumblr.com/tumblr_m8fktw7ayg1rzupqxo1_1280.jpg",
       "https://i.imgflip.com/38de3j.jpg",
       "https://i.imgur.com/aUutgeh.jpg",
@@ -149,20 +135,38 @@
       "https://i.imgur.com/4qOgqlK.jpg"
     ];
 
-    window.setGifs = function() {
-      var elements = document.getElementsByClassName("gif");
-      var gifs = window.shuffleArray(window.gifs);
+    window.changeImage = function() {
+      var elements = document.getElementsByClassName("image");
+
       var j;
       for (j = 0; j < elements.length; j++) {
-        elements[j].src = gifs[j];
+        elements[j].classList.add("hidden");
       }
+
+      var index = Math.floor(Math.random() * elements.length);
+      elements[index].classList.remove("hidden");
     };
 
-    // setInterval(window.setTitleColour, 1500);
+    window.addImages = function() {
+      var container = document.getElementsByClassName("container")[0];
+      var j;
+
+      for(j = 0; j < window.imageUrls.length; j++) {
+        var url = window.imageUrls[j];
+        var element = document.createElement("img");
+        element.src = url;
+        element.classList.add("hidden");
+        element.classList.add("image");
+        container.appendChild(element);
+      }
+    }
+
+    setInterval(window.setTitleColour, 8000);
     window.setTitleColour();
 
-    setInterval(window.setGifs, 20000);
-    window.setGifs();
+    addImages();
+    setInterval(window.changeImage, 20000);
+    window.changeImage();
   </script>
 </body>
 
